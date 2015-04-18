@@ -1,0 +1,34 @@
+application: aware-backend
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: false
+
+builtins:
+- deferred: on
+
+handlers:
+- url: /css
+  static_dir: ui/css
+- url: /img
+  static_dir: ui/img
+- url: /_ah/spi/.*
+  script: api.services.application
+- url: /updates/*
+  script: main.application
+  login: admin
+  secure: always
+- url: /.*
+  script: main.application
+- url: /tests.*
+  script: gaeunit.py
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+- name: endpoints
+  version: 1.0
+- name: pycrypto
+  version: latest

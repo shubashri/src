@@ -1,0 +1,5 @@
+input[type="file"] {
+	border: 1px solid #AAA;
+	background: #FFF;
+	border-radius: 5px;
+}

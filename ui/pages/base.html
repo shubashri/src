@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <meta charset="ISO-8859-1">
+        <title>aWare - {% block title %}Back-End{% endblock %}</title>
+        <link type="text/css" rel="stylesheet" href="/css/bootstrap/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="/css/bootstrap/css/bootstrap.css" />
+        <link type="text/css" rel="stylesheet" href="/css/custom.css" />
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            {% if loggedIn and not authorized %}
+            <div class="well">
+                <p class="lead">
+                    You are not authorized! :-(
+                </p>
+            </div>
+            {% else %}
+            {% if not loggedIn and not authorized %}
+            <div class="well">
+                <p class="lead">
+                    You must login! :-P
+                </p>
+                <p>
+                    Use the link at the bottom of the page.
+                </p>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        {% if loggedIn and authorized %}
+        <!-- Site Navigation Section -->
+        <div id="navigation" class="container">
+            {% block navigation %}
+            <div class="navbar navbar-inverse">
+                {% block navbar %}
+                <div class="navbar-inner">
+                    <a class="brand" href="/">aWare</a>
+                    <ul class="nav">
+                        {% for page in pages %}
+                        {% if page.isActive %}
+                        <li class="active">
+                            <a href="{{ page.url }}">{{ page.caption }}</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{{ page.url }}">{{ page.caption }}</a>
+                            {% endif %}
+                            {% endfor %}
+                    </ul>
+                </div>
+                {% endblock %}
+            </div>
+            {% endblock %}
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div id="messages" class="container">
+            {% block messages %}
+            {% for msg in messages %}
+            <div class="alert alert-{{msg.get('type')}}">
+                {{msg.get('msg')}}
+            </div>
+            {% endfor %}
+            {% endblock %}
+        </div>
+        {% endif %}
+
+        <!-- Site Content Section -->
+        <div id="content" class="container">
+            {% block content %}{% endblock %}
+        </div>
+        {% endif %}
+
+        <!-- Site Footer Section -->
+        <div id="footer" class="container">
+            <p class="text-center">
+                &copy; Copyright aWare ApS 2013, All rights are reserved. Authorized accessed only. <a href="{{ url|safe }}">{{ url_linktext }}</a>
+            </p>
+        </div>
+    </body>
+</html>

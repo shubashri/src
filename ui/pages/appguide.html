@@ -1,0 +1,50 @@
+{% extends "pages/base.html" %}
+{% block title %}App Guide{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Guide<small> For the App</small></h1>
+</div>
+<div class="row">
+    <div class="span12">
+        <ul class="thumbnails">
+        {% for item in items %}
+        <li class="span6">
+            <div class="thumbnail">
+                <img src="{{ item.get_serving_url_for_image() }}" alt="Guide Image">
+                <h3>Edit Guide Item</h3>
+                <form action="{{ form_action }}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="item" value="{{ item.key.urlsafe() }}">
+                    <textarea name="text" rows="6" class="input-block-level">{{ item.text }}</textarea>
+                    <input type="file" name="image" class="input-block-level">
+                    <p>(replace the image by uploading a new one)</p>
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- New Guide Item -->
+<div class="row">
+    <div class="span12">
+        <form action="{{ form_action }}" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>
+                    Add Guide Item
+                </legend>
+                <label>Image:</label>
+                <input type="file" name="image" class="input-block-level" required="required">
+                <label>Text:</label>
+                <textarea rows="10" name="text" class="input-block-level" required="required"></textarea>
+                <button type="submit" class="btn btn-primary">
+                    Add
+                </button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

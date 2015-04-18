@@ -1,0 +1,44 @@
+{% extends "pages/base.html" %}
+{% block title %}App Help Topics{% endblock %}
+{% block content %}
+	<div class="page-header">
+		<h1>Help Topics<small> For the App</small></h1>
+	</div>
+	<div class="row">
+	{% for topic in helps %}
+  		<div class="span6">
+  			<form method="post">
+			  <fieldset>
+			    <legend>Edit Topic</legend>
+			    <label>Topic Title:</label>
+			    <input type="text" name="title" class="input-block-level" value="{{topic.title}}" required="required">
+			    <label>Topic Description:</label>
+			    <textarea rows="10" name="description" class="input-block-level"  required="required">{{topic.description}}</textarea>
+			    <input type="hidden" name="key" value="{{topic.key.urlsafe()}}">
+			    <button type="submit" class="btn btn-primary">Save</button>
+			  </fieldset>
+			</form>
+  		</div>
+  		{% if loop.index % 2 == 0  %}
+  			</div>
+  			<div class="row">
+  		{% endif%}
+  	{% endfor %}
+	</div>
+	
+	<!-- New Help Topic -->
+	<div class="row">
+  		<div class="span12">
+  			<form method="post">
+			  <fieldset>
+			    <legend>Add New Topic</legend>
+			    <label>Topic Title:</label>
+			    <input type="text" name="title" class="input-block-level" required="required">
+			    <label>Topic Description:</label>
+			    <textarea rows="10" name="description" class="input-block-level" required="required"></textarea>
+			    <button type="submit" class="btn btn-primary">Add</button>
+			  </fieldset>
+			</form>
+  		</div>
+	</div>
+{% endblock %}

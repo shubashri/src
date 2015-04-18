@@ -1,0 +1,22 @@
+{% extends "pages/base.html" %}
+{% block title %}OCR{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>OCR <small>Service testing</small></h1>
+</div>
+
+<div class="well">
+    <form action="/ocr" method="post" enctype="multipart/form-data">
+        <input type="text" name="image" size="50" required="required">
+        <button type="submit" class="btn btn-primary">
+            Read
+        </button>
+    </form>
+</div>
+
+{% if ocr_result %}
+<div class="well">
+    {{ocr_result}}
+</div>
+{% endif %}
+{% endblock %}

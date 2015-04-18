@@ -1,0 +1,67 @@
+{% extends "pages/base.html" %}
+{% block title %}Classes & Categories{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Classes & Categories<small> Current picture</small></h1>
+</div>
+<div class="row">
+    <!-- Classes -->
+    <div class="span8">
+        <table class="table table-bordered">
+            <thead>
+                <tr colspan="4">
+                    <th>Classes</th>
+                </tr>
+                <tr>
+                    <th>Pictogram</th>
+                    <th>Name</th>
+                    <th>Created</th>
+                    <th>Classifications</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="4"> &nbsp; </td>
+                <tr>
+            </tfoot>
+            <tbody>
+                {% for c in classes %}
+                <tr>
+                    <td><img src="/images?kind=pictogram&ID={{c.pictogram.urlsafe()}}" width="32"></td>
+                    <td>{{c.name}}</td>
+                    <td>{{c.created.strftime('%d-%m-%Y %H:%M')}}</td>
+                    <td>{{c.getClassifications()|count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Class Categories -->
+    <div class="span4">
+        <table class="table table-bordered">
+            <thead>
+                <tr colspan="2">
+                    <th>Categories</th>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <th>Classifications</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="2"> &nbsp; </td>
+                <tr>
+            </tfoot>
+            <tbody>
+                {% for cat in categories %}
+                <tr>
+                    <td>{{cat.title}}</td>
+                    <td>{{cat.getClassifications()|count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

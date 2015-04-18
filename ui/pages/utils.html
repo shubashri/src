@@ -1,0 +1,190 @@
+{% extends "pages/base.html" %}
+{% block title %}Utilities{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Utilities <small>Perform tasks</small></h1>
+</div>
+
+<!-- Products Importer -->
+<div class="well">
+    <h4>Create Test Product</h4>
+    <p>
+        Fill the form in order to create a test product. The <em>ingredients</em> must be
+        provided as one ingredient pr. line.
+    </p>
+
+    <form class="form-horizontal" action="{{ products_form }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="products">
+        <!-- Front Image -->
+        <div class="control-group">
+            <label class="control-label" for="product-front-image">Front Image:</label>
+            <div class="controls">
+                <input type="file" name="front_image" id="product-front-image" required="required">
+            </div>
+        </div>
+        <!-- Ingredients Image -->
+        <div class="control-group">
+            <label class="control-label" for="product-ing-image">Ingredients Image:</label>
+            <div class="controls">
+                <input type="file" name="ingredients_image" id="product-ing-image" required="required">
+            </div>
+        </div>
+        <!-- Ingredients -->
+        <div class="control-group">
+            <label class="control-label" for="product-ingredients">Ingredients:</label>
+            <div class="controls">
+                <textarea name="ingredients" id="product-ingredients" rows="10" required="required"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Hazards Reader -->
+<div class="well">
+    <h4>Insert Hazards</h4>
+    <p>
+        Upload a <em>.zip</em> file containing a <em>hazards.txt</em> file
+        and images (as <em>.png</em>) for the pictograms. The name of the
+        images must be in upper case and match the name of the pictogram in
+        the <em>hazards.txt</em> file. Each line in the <em>harzards.txt</em> file
+        must consists of 6 components separated with '#' (hash character).
+        The 6 components, in the order presented, are:
+    </p>
+    <ol>
+        <li>
+            Hazard Code
+        </li>
+        <li>
+            Hazard Statement
+        </li>
+        <li>
+            Hazard Class
+        </li>
+        <li>
+            Category
+        </li>
+        <li>
+            Signal Word
+        </li>
+        <li>
+            Pictogram Name
+        </li>
+    </ol>
+    <p>
+        The following illustrates the content of the <em>hazards.txt</em> file and the content of the <em>.zip</em>
+        file.
+    </p>
+
+    <div class="row">
+        <div class="span9">
+            <pre>
+H331 # Toxic if inhaled # Acute toxicity,inhalation # Category 3 # Danger # GHS06
+H332 # Harmful if inhaled # Acute toxicity,inhalation # Category 4 # Warning # GHS07
+H350 # May cause cancer # Carcinogenicity # Category 1A, 1B # Danger # GHS08
+H318 # Causes serious eye damage # Serious eye damage/eye irritation # Category 1 # Danger # GHS05
+H401 # Toxic to aquatic life # Hazardous to the aquatic environment, acute hazard # Category 2 # Warning # GHS09
+            </pre>
+        </div>
+        <div class="span2">
+            <pre>
+ - GHS05.png
+ - GHS06.png
+ - GHS07.png
+ - GHS08.png
+ - GHS09.png
+ - hazards.txt
+            </pre>
+        </div>
+    </div>
+
+    <form action="{{ hazards_form }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="hazards">
+        <input type="file" name="data" size="50" required="required">
+        <button type="submit" class="btn btn-primary">
+            Upload
+        </button>
+    </form>
+</div>
+
+<!-- Ingredients Reader -->
+<div class="well">
+    <h4>Insert Ingredients</h4>
+    <p>
+        Upload a <em>.csv</em> file containing list of ingredients and
+        their mapping to the HStatements. The specification of the
+        <em>.csv</em> file is as follows: The mandatory columns,
+        in the order presented, are
+    </p>
+    <ol>
+        <li>
+            ID
+        </li>
+        <li>
+            INCI Names
+        </li>
+        <li>
+            CAS Numbers
+        </li>
+        <li>
+            EC Numbers
+        </li>
+        <li>
+            IUPAC Names
+        </li>
+        <li>
+            Aliases
+        </li>
+        <li>
+            E Numbers
+        </li>
+    </ol>
+    <p>
+        The columns are separated by a ';' (semicolon). The first
+        column (ID) must be present and have a value,
+        otherwise the row will be skipped. The value of the ID is a positive integer which
+        uniquely identifies an ingredient. From the seventh column on the
+        HStatements of the ingredient are given. Each column specifies
+        the HStatements from a unique <a href="../hreferences" >HReference</a>
+        where the ID of the HReference is given
+        at the first row. The example presented below illustrates the
+        specification of the <em>.csv</em> file.
+    </p>
+    <pre>
+ID;INCI Names;CAS Numbers;EC Numbers;IUPAC Names;Aliases;E Numbers;SIGMA
+1;ABIETIC ACID;514-10-3;208-178-3;;;;H315#H319#H335#H400
+2;ACETALDEHYDE DIETHYL ACETAL;105-57-7;203-310-6;1,1-Diethoxyethane Acetal#Acetaldehyde diethyl acetal;;;H225#H315#H319
+...
+</pre>
+    <p>
+        Notice that '#' (hash character) is used as delimiter for hazard codes and IUPAC names.
+    </p>
+    <form action="{{ ingredients_form }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="ingredients">
+        <input type="file" name="data" size="50" required="required">
+        <button type="submit" class="btn btn-primary">
+            Upload
+        </button>
+    </form>
+</div>
+
+<!-- Admin Creation form -->
+<div class="well">
+    <h4>Add an Administrator</h4>
+    <p>
+        Create an administrator to manage aWare Admin Interface. Add the E-mail of
+        the person you want to add as the administrator.
+    </p>
+    <form method="post">
+        <input type="hidden" name="action" value="admin">
+        <input type="text" name="email" size="70" required="required" placeholder="E-mail, e.g. anders@aWareApS.com">
+        <button type="submit" class="btn btn-primary">
+            Create
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "pages/base.html" %}
+{% block title %}Pictograms{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Pictograms<small> currently in use</small></h1>
+</div>
+<div class="row">
+    <div class="span12">
+        <form method="post">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Order</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                        <button type="submit" class="btn btn-primary">
+                            Save Changes
+                        </button></td>
+                    <tr>
+                </tfoot>
+                <tbody>
+                    {% for p in pictograms %}
+                    <tr>
+                        <td><img src="/images?kind=pictogram&ID={{ p.key.urlsafe() }}" width="32"></td>
+                        <td><input type="text" name="title[{{ p.name }}]" value="{{ p.title if p.title }}" /></td>
+                        <td>{{ p.name }}</td>
+                        <td><input type="text" name="description[{{ p.name }}]" value="{{ p.description if p.description }}" /></td>
+                        <td>
+                            {% set items = pictograms|count %}
+                            <select name="order[{{ p.name }}]">
+                                <option>N/A</option>
+                                {% for o  in range(1,items+1) %}
+                                    {% if o == p.order %}
+                                        <option value="{{ o }}" selected="selected">{{ o }}</option>
+                                    {% else %}
+                                        <option value="{{ o }}">{{ o }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}

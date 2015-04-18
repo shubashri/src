@@ -1,0 +1,97 @@
+{% extends "pages/base.html" %}
+{% block title %}App Debugging{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Debug<small> the App</small></h1>
+</div>
+<div class="row">
+    <div class="span6">
+        <h4>Simulate product image creation</h4>
+        <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+            <label for="productKey">Product:</label>
+            <input type="text" name="productKey" placeholder="Product Key" class="input-xlarge">
+            <label for="userKey">User:</label>
+            <input type="text" name="userKey" placeholder="User Key" class="input-xlarge">
+            <label for="file">Select Image:</label>
+            <input type="file" name="image" class="input-large">
+            <label for="selectType">Image Type:</label>
+            <select name="type" id="selectType" class="input-large">
+                <option value="front" selected="selected">Front</option>
+                <option value="ingredient">Ingredients</option>
+            </select>
+            <label for="featured">Featured:</label>
+            <select name="featured" class="input-large">
+                <option value="false" selected="selected">No</option>
+                <option value="true">Yes</option>
+            </select>
+            <!-- <label for="ocr_result">OCR Result:</label>
+            <textarea name="ocr_result" rows="10" class="input-xlarge"></textarea> -->
+            <div>
+                <button type="submit" class="btn btn-primary">
+                    Upload
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="span6">
+        {% if ocrReadingError %}
+        <div class="alert alert-error">
+            <p>
+                <strong>ERROR:</strong> {{ ocrReadingError }}
+            </p>
+        </div>
+        {% endif %}
+        {% if ocrReadingResults %}
+        <div class="alert alert-success">
+            <p>
+                Result of simulation:
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>Found?</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr colspan="2">
+                        <td><small><strong>Elapsed Time: {{ elapsedTime|round(3) }} s</strong></small></td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {% for result in ocrReadingResults %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td>{{ result[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <h4>Simulate OCR results manipulation</h4>
+        <form method="post">
+            <input type="hidden" name="action" value="sim-ocr-reading">
+            <label>OCR Result:</label>
+            <textarea name="ocr_result" rows="10" class="input-block-level" placeholder="Enter OCR result from a product ingredients picture" required="required"></textarea>
+            <div>
+                <label class="checkbox">
+                    <input type="checkbox" name="datastore" value="1">
+                    Use the ingredients from datastore </label>
+            </div>
+            <label>Ingredients:</label>
+            <textarea name="ingredients" rows="10" class="input-block-level" placeholder="Enter a list of ingredients (separate by new line) in order to find them in the OCR Result.">Aqua
+Cetyl Alcohol
+Stearamidopropyl Dimethylamine
+Stearyl Alcohol
+Quaternium-18
+Hydroxyethylcellulose</textarea>
+            <div>
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<form action="hreferences" method="post">
+	<fieldset>
+    	<legend>Add HReference</legend>
+		<input type="hidden" name="action" value="add">
+		<label for="id">ID: *</label>
+		<input type="text" id="id" name="id" class="input-xlarge" 
+			{% if reference %}
+			value="{{ reference.get('ID')|e }}"
+			{% endif %} 
+			required="required">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" class="input-xlarge"
+			{% if reference %}  
+			value="{{ reference.get('name')|e }}"
+			{% endif %}
+			>
+		<label for="source">Source: *</label>
+		<input type="text" id="source" name="source" class="input-xlarge"  
+			{% if reference %}
+			value="{{ reference.get('source')|e }}" 
+			{% endif %}
+			required="required">
+		<span class="help-block">* = Required</span>
+		<button type="submit" class="btn btn-primary">Save</button>
+	</fieldset>
+</form>

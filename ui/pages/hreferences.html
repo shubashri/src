@@ -1,0 +1,33 @@
+{% extends "pages/base.html" %}
+{% block title %}HReferences{% endblock %}
+{% block content %}
+	<div class="page-header">
+		<h1>HReferences <small>Currently in use</small></h1>
+	</div>
+	
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Source</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="3">
+					{% include "forms/hreference.html" %}
+				</td>
+			<tr>
+		</tfoot>
+		<tbody>
+			{% for ref in references %}
+			<tr>
+				<td>{{ref.ID}}</td>
+				<td>{{ref.name}}</td>
+				<td>{{ref.source}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+    </table>
+{% endblock %}
